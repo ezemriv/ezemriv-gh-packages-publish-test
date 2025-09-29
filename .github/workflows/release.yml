@@ -19,13 +19,13 @@ jobs:
           python-version-file: pyproject.toml
 
       - name: Build
-        run: uv build --no-sources
+        run: uv build
 
       - name: Publish to GitHub Packages
         env:
           UV_PUBLISH_USERNAME: ${{ github.actor }}
           UV_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        run: uv publish --publish-url "https://pypi.pkg.github.com"
+        run: uv publish --publish-url "https://pypi.pkg.github.com/${{ github.repository_owner }}/simple"
 
 #         stages:  FROM SOME POST
 #   - publish  
