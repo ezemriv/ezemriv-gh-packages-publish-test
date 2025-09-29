@@ -26,29 +26,3 @@ jobs:
           UV_PUBLISH_USERNAME: ${{ github.actor }}
           UV_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: uv publish --publish-url "https://pypi.pkg.github.com/${{ github.repository_owner }}/simple"
-
-#         stages:  FROM SOME POST
-#   - publish  
-
-# variables:  
-#   PYTHON_VERSION: "3.13"  
-#   UV_VERSION: "0.5.5"
-#   UV_PUBLISH_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi"  
-#   UV_PUBLISH_USERNAME: "gitlab-ci-token"  
-#   UV_PUBLISH_PASSWORD: "${CI_JOB_TOKEN}"  
-
-# before_script:  
-#   - pip install uv==${UV_VERSION}
-
-# publish:  
-#   stage: publish  
-#   image: python:${PYTHON_VERSION}
-#   script:  
-#     # Set the version in pyproject.toml to the current git tag  
-#     - VERSION=$(git describe --exact-match --tags)  
-#     - uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $VERSION  
-#     # Build and publish the package  
-#     - uv build  
-#     - uv publish dist/*.whl  
-#   only:
-#     - tags
