@@ -1,0 +1,13 @@
+name: "Setup UV"
+description: "Installs a pinned uv binary and enables caching for GitHub Actions."
+runs:
+  using: composite
+  steps:
+    - name: Install uv (with caching)
+      uses: astral-sh/setup-uv@v6
+      with:
+        # Pin the uv version you want. Pick whatever is current or,
+        # define a semver range: ">=0.7.0,<0.8.0"
+        version: "0.8.22"
+        # Invalidate the cache whenever uv.lock changes:
+        cache-dependency-glob: "uv.lock"
