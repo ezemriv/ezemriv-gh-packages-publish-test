@@ -1,6 +1,6 @@
 [project]
 name = "ezemriv-dummy-lib"
-version = "0.1.3"
+version = "0.1.4"
 description = "Test package for GitHub Packages publishing"
 readme = "README.md"
 authors = [
