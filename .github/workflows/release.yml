@@ -101,6 +101,13 @@ jobs:
         run: |
           echo "WIF_PROVIDER=projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool/providers/github-provider" >> $GITHUB_ENV
           echo "WIF_SERVICE_ACCOUNT=${CI_SA}@${PROJECT_ID}.iam.gserviceaccount.com" >> $GITHUB_ENV
+          echo $WIF_PROVIDER
+          echo $WIF_SERVICE_ACCOUNT
+      
+      - name: DEBUG - Check env variables
+        run: |
+          echo $WIF_PROVIDER
+          echo $WIF_SERVICE_ACCOUNT
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -118,5 +125,3 @@ jobs:
           UV_PUBLISH_PASSWORD: ${{ steps.auth.outputs.access_token }}
         run: |
           uv publish --index tradelab-pypi
-
-#          --publish-url https://europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/
