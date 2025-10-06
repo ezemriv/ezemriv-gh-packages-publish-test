@@ -1,6 +1,6 @@
 [project]
 name = "ezemriv-dummy-lib"
-version = "0.1.0"
+version = "0.1.1"
 description = "Test package for GitHub Packages publishing"
 readme = "README.md"
 authors = [
@@ -17,6 +17,6 @@ build-backend = "uv_build"
 
 [[tool.uv.index]]
 name = "gar_tradelab"
-url = "https://oauth2accesstoken@REGION-python.pkg.dev/PROJECT/REPO/simple/"
-publish-url = "https://oauth2accesstoken@REGION-python.pkg.dev/PROJECT/REPO/"
+url = "https://oauth2accesstoken@europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/simple/"
+publish-url = "https://oauth2accesstoken@europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/"
 explicit = true

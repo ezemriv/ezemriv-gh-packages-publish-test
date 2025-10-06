@@ -56,6 +56,7 @@ gcloud config set project "$PROJECT_ID" >/dev/null
 
 echo "1) Enable Artifact Registry API"
 gcloud services enable artifactregistry.googleapis.com
+echo "   Done"
 
 echo "2) Ensure GAR Python repo"
 if gcloud artifacts repositories describe "$REPOSITORY" --location="$GAR_LOCATION" >/dev/null 2>&1; then
@@ -65,6 +66,7 @@ else
     --repository-format=python \
     --location="$GAR_LOCATION" \
     --description="TradeLab Private Python packages"
+  echo "   Created repo"
 fi
 
 echo "3) Ensure publisher service account"
@@ -73,6 +75,7 @@ if gcloud iam service-accounts describe "$CI_SA_EMAIL" >/dev/null 2>&1; then
 else
   gcloud iam service-accounts create "$CI_SA" \
     --display-name="TradeLab Python Packages Publisher"
+  echo "   Created SA"
 fi
 
 echo "4) Grant minimal publish rights (writer on repo)"
