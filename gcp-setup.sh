@@ -20,12 +20,11 @@
 
 set -euo pipefail
 
-# sanity checks
-: "${PROJECT_ID:?set PROJECT_ID}"
-: "${PROJECT_NUMBER:?set PROJECT_NUMBER}"
-: "${GAR_LOCATION:?set GAR_LOCATION}"
-: "${REPOSITORY:?set REPOSITORY}"
-: "${CI_SA:?set CI_SA}"
+# require config sourced first
+if [[ -z "${CI_SA:-}" ]]; then
+  echo "Config not loaded. Run: 'source config-dev.env' or 'source config-pro.env' and retry."
+  exit 1
+fi
 
 CI_SA_EMAIL="${CI_SA}@${PROJECT_ID}.iam.gserviceaccount.com"
 
