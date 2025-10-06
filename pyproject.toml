@@ -25,3 +25,8 @@ name = "tradelab-pypi"
 url = "https://europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/simple/"
 publish-url = "https://europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/"
 explicit = true
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.3",
+]
