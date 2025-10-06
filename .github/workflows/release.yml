@@ -1,70 +1,8 @@
-# name: Release (publish package to GAR)
-
-# on:
-#   push:
-#     tags: [ "v*" ]
-
-# jobs:
-#   publish:
-#     runs-on: ubuntu-latest
-#     permissions:
-#       contents: read
-#       id-token: write
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
-
-#       # - uses: actions/setup-python@v5
-#       #   with:
-#       #     python-version-file: pyproject.toml
-
-#       # Load GCP/GAR vars from config-dev.env (edit to config-pro.env when needed)
-#       - name: Load config
-#         run: |
-#           set -a
-#           source config-dev.env
-#           set +a
-#           echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
-#           echo "PROJECT_NUMBER=$PROJECT_NUMBER" >> $GITHUB_ENV
-#           echo "GAR_LOCATION=$GAR_LOCATION" >> $GITHUB_ENV
-#           echo "REPOSITORY=$REPOSITORY" >> $GITHUB_ENV
-#           echo "CI_SA=$CI_SA" >> $GITHUB_ENV
-#           echo "GAR_PUBLISH_URL=https://${GAR_LOCATION}-python.pkg.dev/${PROJECT_ID}/${REPOSITORY}/" >> $GITHUB_ENV
-
-#       - name: Set WIF variables
-#         run: |
-#           echo "WIF_PROVIDER=projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool/providers/github-provider" >> $GITHUB_ENV
-#           echo "WIF_SERVICE_ACCOUNT=${CI_SA}@${PROJECT_ID}.iam.gserviceaccount.com" >> $GITHUB_ENV
-
-#       - name: Authenticate to Google Cloud
-#         id: auth
-#         uses: google-github-actions/auth@v2
-#         with:
-#           project_id: ${{ env.PROJECT_ID }}
-#           workload_identity_provider: ${{ env.WIF_PROVIDER }}
-#           service_account: ${{ env.WIF_SERVICE_ACCOUNT }}
-      
-#       - name: 'Set up Cloud SDK'
-#         uses: 'google-github-actions/setup-gcloud@v2'
-#         with:
-#           project_id: ${{ env.PROJECT_ID }}
-
-#       - name: Build distributions
-#         run: uv build --no-sources
-
-#       - name: Publish to GAR
-#         env:
-#           UV_PUBLISH_USERNAME: oauth2accesstoken
-#           UV_PUBLISH_PASSWORD: ${{ steps.auth.outputs.access_token }}
-#         run: uv publish --publish-url "${{ env.GAR_PUBLISH_URL }}" --non-interactive -v
-
-name: Publish to GAR
+name: Release (publish package to GAR)
 
 on:
   push:
-    branches:
-      - main
+    tags: [ "v*" ]
 
 jobs:
   publish:
@@ -80,9 +18,6 @@ jobs:
       
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
-      
-      - name: DEBUG - Check uv version
-        run: uv --version
       
       # Load GCP/GAR vars from config-dev.env (edit to config-pro.env when needed)
       - name: Load config

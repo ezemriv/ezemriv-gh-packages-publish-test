@@ -17,7 +17,7 @@ build-backend = "uv_build"
 
 [[tool.uv.index]]
 # From https://docs.astral.sh/uv/guides/integration/alternative-indexes/#authenticate-with-a-google-access-token
-# set these for local publishing:
+# set these for install and local publish:
 # export ARTIFACT_REGISTRY_TOKEN=$(gcloud auth application-default print-access-token)
 # export UV_INDEX_TRADELAB_PYPI_USERNAME=oauth2accesstoken
 # export UV_INDEX_TRADELAB_PYPI_PASSWORD="$ARTIFACT_REGISTRY_TOKEN"
