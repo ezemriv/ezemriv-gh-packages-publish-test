@@ -22,8 +22,13 @@ while getopts ":e:" opt; do
   case "$opt" in
     e) ENV="$OPTARG" ;;
     *) echo "usage: $0 [-e dev|pro]"; exit 2 ;;
-  case esac
+  esac
 done
+
+# optional: validate value
+if [[ "$ENV" != "dev" && "$ENV" != "pro" ]]; then
+  echo "usage: $0 [-e dev|pro]"; exit 2
+fi
 
 ENV_FILE="config-${ENV}.env"
 if [[ ! -f "$ENV_FILE" ]]; then
@@ -36,7 +41,7 @@ set -a
 source "$ENV_FILE"
 set +a
 
-# require config sourced first
+# config check
 if [[ -z "${CI_SA:-}" ]]; then
   echo "Config not loaded. Retry."
   exit 1
