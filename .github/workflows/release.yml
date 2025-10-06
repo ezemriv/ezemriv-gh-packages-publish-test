@@ -103,12 +103,13 @@ jobs:
           echo "WIF_SERVICE_ACCOUNT=${CI_SA}@${PROJECT_ID}.iam.gserviceaccount.com" >> $GITHUB_ENV
 
       - name: Authenticate to Google Cloud
+        id: auth
         uses: google-github-actions/auth@v2
         with:
           project_id: ${{ env.PROJECT_ID }}
           workload_identity_provider: ${{ env.WIF_PROVIDER }}
-          service_account: ${{ env.WIF_SERVICE_ACCOUNT }}
-          token_format: 'id_token'
+          service_account: ${{ env.WIF_SA }}
+          token_format: access_token
 
       - name: Build package
         run: uv build
@@ -116,6 +117,6 @@ jobs:
       - name: Publish to GAR
         env:
           UV_PUBLISH_USERNAME: oauth2accesstoken
-          UV_PUBLISH_PASSWORD: ${{ steps.auth.outputs.id_token }}
+          UV_PUBLISH_PASSWORD: ${{ steps.auth.outputs.access_token }}
         run: |
           uv publish --index tradelab-pypi
