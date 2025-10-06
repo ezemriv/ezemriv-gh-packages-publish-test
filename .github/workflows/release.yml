@@ -118,6 +118,4 @@ jobs:
           UV_PUBLISH_PASSWORD: ${{ steps.auth.outputs.access_token }}
         run: |
           uv publish \
-            --publish-url https://europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/ \
-            --username oauth2accesstoken \
-            --password ${{ steps.auth.outputs.access_token }}
+            --publish-url https://europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/
