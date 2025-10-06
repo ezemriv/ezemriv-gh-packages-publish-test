@@ -1,28 +1,38 @@
-name: Publish to GitHub Packages
+name: Publish to GAR
 on:
   push:
-    branches:
-      - main
- 
+    tags: [ "v*" ]
+
 permissions:
   contents: read
-  packages: write
+  id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
+      - uses: astral-sh/setup-uv@v5
       - uses: actions/setup-python@v5
         with:
           python-version-file: pyproject.toml
 
-      - name: Build
-        run: uv build
+      # Workload Identity Federation to GCP
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}   # e.g. projects/123/locations/global/workloadIdentityPools/gh-pool/providers/gh
+          service_account: ${{ secrets.GCP_PUBLISH_SA }}                # e.g. tradelab-pypi-publisher@PROJECT.iam.gserviceaccount.com
 
-      - name: Publish to GitHub Packages
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build distributions
+        run: uv build --no-sources
+
+      - name: Publish to GAR
         env:
-          UV_PUBLISH_USERNAME: ${{ github.actor }}
-          UV_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        run: uv publish --publish-url "https://pypi.pkg.github.com/${{ github.repository_owner }}/simple"
+          # OAuth flow: username must be this literal, password is an access token
+          UV_PUBLISH_USERNAME: oauth2accesstoken
+          UV_PUBLISH_PASSWORD: ${{ steps.auth.outputs.access_token }}
+        run: |
+          uv publish --index gar_tradelab --non-interactive -v

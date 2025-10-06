@@ -3,7 +3,7 @@ revision = 3
 requires-python = ">=3.12"
 
 [[package]]
-name = "gh-packages-publish-test"
+name = "ezemriv-dummy-lib"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
