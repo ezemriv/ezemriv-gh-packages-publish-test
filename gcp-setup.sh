@@ -3,14 +3,11 @@
 # GAR publish setup (run once per project)
 # -----------------------------------------------------------------------------
 # Usage:
-#   # Pick one and source it in your shell BEFORE running:
-#   #   source config-dev.env
-#   #   source config-pro.env
-#   #
-#   # Then run:
-#   #   ./setup-gcp-predeploy.sh
+#   # Run either for dev or pro env:
+#   #   ./setup-gcp-predeploy.sh -e dev
+#   #   ./setup-gcp-predeploy.sh -e pro
 # -----------------------------------------------------------------------------
-# Requires these env vars (from the sourced config):
+# Requires these env vars set in sourced config-*.env file:
 #   PROJECT_ID           e.g. "tradelab023"
 #   PROJECT_NUMBER       e.g. "566607668180"
 #   GAR_LOCATION         e.g. "europe-southwest1"
@@ -20,9 +17,28 @@
 
 set -euo pipefail
 
+ENV="dev"
+while getopts ":e:" opt; do
+  case "$opt" in
+    e) ENV="$OPTARG" ;;
+    *) echo "usage: $0 [-e dev|pro]"; exit 2 ;;
+  case esac
+done
+
+ENV_FILE="config-${ENV}.env"
+if [[ ! -f "$ENV_FILE" ]]; then
+  echo "env file not found: $ENV_FILE"; exit 1
+fi
+
+echo "Loading $ENV_FILE"
+set -a
+# shellcheck source=/dev/null
+source "$ENV_FILE"
+set +a
+
 # require config sourced first
 if [[ -z "${CI_SA:-}" ]]; then
-  echo "Config not loaded. Run: 'source config-dev.env' or 'source config-pro.env' and retry."
+  echo "Config not loaded. Retry."
   exit 1
 fi
 
