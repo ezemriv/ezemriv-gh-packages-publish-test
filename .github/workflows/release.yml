@@ -1,4 +1,4 @@
-name: Publish to GAR
+name: Publish package to GAR
 on:
   push:
     tags: [ "v*" ]
