@@ -5,7 +5,18 @@ on:
     tags: [ "v*" ]
 
 jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5 # checkout code
+      - uses: astral-sh/setup-uv@v5 # uv setup
+      - run: uv sync --locked --all-extras --dev
+      - run: uvx ruff format .
+      - run: uvx ruff check --fix .
+      - run: uv run pytest -v --durations=0
+
   publish:
+    needs: [quality]
     runs-on: ubuntu-latest
     
     # Grant permissions for OIDC token
@@ -14,10 +25,8 @@ jobs:
       id-token: 'write'
     
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v5
       
       # Load GCP/GAR vars from config-dev.env (edit to config-pro.env when needed)
       - name: Load config
