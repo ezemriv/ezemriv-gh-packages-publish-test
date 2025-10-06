@@ -107,8 +107,8 @@ jobs:
         with:
           project_id: ${{ env.PROJECT_ID }}
           workload_identity_provider: ${{ env.WIF_PROVIDER }}
-          # service_account: ${{ env.WIF_SERVICE_ACCOUNT }}
-          # token_format: 'access_token'
+          service_account: ${{ env.WIF_SERVICE_ACCOUNT }}
+          token_format: 'id_token'
 
       - name: Build package
         run: uv build
