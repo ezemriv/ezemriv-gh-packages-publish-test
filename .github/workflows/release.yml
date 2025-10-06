@@ -72,8 +72,8 @@ jobs:
     
     # Grant permissions for OIDC token
     permissions:
-      contents: read
-      id-token: write
+      contents: 'read'
+      id-token: 'write'
     
     steps:
       - uses: actions/checkout@v4
@@ -107,8 +107,8 @@ jobs:
         with:
           project_id: ${{ env.PROJECT_ID }}
           workload_identity_provider: ${{ env.WIF_PROVIDER }}
-          service_account: ${{ env.WIF_SERVICE_ACCOUNT }}
-          token_format: 'access_token'
+          # service_account: ${{ env.WIF_SERVICE_ACCOUNT }}
+          # token_format: 'access_token'
 
       - name: Build package
         run: uv build
