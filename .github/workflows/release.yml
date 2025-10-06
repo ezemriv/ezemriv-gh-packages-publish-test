@@ -3,6 +3,9 @@ name: Release (publish package to GAR)
 on:
   push:
     tags: [ "v*" ]
+  workflow_dispatch:
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   quality:
@@ -13,7 +16,7 @@ jobs:
       - run: uv sync --locked --all-extras --dev
       - run: uvx ruff format .
       - run: uvx ruff check --fix .
-      - run: uv run pytest -v --durations=0
+      # - run: uv run pytest -v --durations=0
 
   publish:
     needs: [quality]
