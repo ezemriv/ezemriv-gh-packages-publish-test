@@ -1,6 +1,6 @@
 [project]
 name = "ezemriv-dummy-lib"
-version = "0.1.1"
+version = "0.1.3"
 description = "Test package for GitHub Packages publishing"
 readme = "README.md"
 authors = [
@@ -16,7 +16,12 @@ requires = ["uv_build>=0.8.15,<0.9.0"]
 build-backend = "uv_build"
 
 [[tool.uv.index]]
-name = "gar_tradelab"
-url = "https://oauth2accesstoken@europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/simple/"
-publish-url = "https://oauth2accesstoken@europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/"
+# From https://docs.astral.sh/uv/guides/integration/alternative-indexes/#authenticate-with-a-google-access-token
+# set these for local publishing:
+# export ARTIFACT_REGISTRY_TOKEN=$(gcloud auth application-default print-access-token)
+# export UV_INDEX_TRADELAB_PYPI_USERNAME=oauth2accesstoken
+# export UV_INDEX_TRADELAB_PYPI_PASSWORD="$ARTIFACT_REGISTRY_TOKEN"
+name = "tradelab-pypi"
+url = "https://europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/simple/"
+publish-url = "https://europe-southwest1-python.pkg.dev/tradelab023/tradelab-pypi/"
 explicit = true
